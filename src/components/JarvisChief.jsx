@@ -1,28 +1,34 @@
-import React, { useState } from 'react'
-import { askJarvis } from '../utils/askJarvis.js'
+import React, { useState } from "react";
+import { askJarvis } from "../utils/askJarvis.js";
 const JarvisChief = () => {
+  const [recipeMessage, setRecipeMessage] = useState("");
+  const [recipe, setRecipe] = useState("");
 
-  const [humanMessage,sethumanMessage]=useState("")
+  const handleInputChange = (e) => {
+    setRecipeMessage(e.target.value);
+  };
 
-  const handleInputChange=(e)=>{
-    sethumanMessage(e.target.value)
-  }
-
-  const handleSubmit=(e)=>{
-    e.preventDefault()
-    askJarvis(humanMessage)
-  }
-
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const res_recipe = await askJarvis(recipeMessage);
+    setRecipe(res_recipe)
+  };
 
   return (
     <>
       <h1>Ask your recipes</h1>
-      <form >
-        <input type="text" value={humanMessage} onChange={handleInputChange} placeholder='ask your favriot recipes' />
+      <form>
+        <input
+          type="text"
+          value={recipeMessage}
+          onChange={handleInputChange}
+          placeholder="ask your favriot recipes"
+        />
         <button onClick={handleSubmit}>ask</button>
       </form>
+      <pre>{recipe}</pre>
     </>
-  )
-}
+  );
+};
 
-export default JarvisChief
+export default JarvisChief;
